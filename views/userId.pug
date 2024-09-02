@@ -1,0 +1,9 @@
+html(lang="en")
+  head
+    title= title
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+
+  body
+    .container
+      h1.d-flex.justify-content-center.p-5 User Details
+      div.fs-3.p-2  #{ user.name } - #{ user.phone } - #{ user.email }

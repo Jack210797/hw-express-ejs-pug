@@ -1,0 +1,14 @@
+doctype html
+html(lang="en")
+  head
+    title= title
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+
+  body
+    .container
+      h1.d-flex.justify-content-center.p-5 Users List
+
+     
+      ul
+        each user in users
+          li.p-2 #{ user.name } - #{ user.phone } - #{ user.email }

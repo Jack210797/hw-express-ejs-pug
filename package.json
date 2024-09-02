@@ -1,0 +1,15 @@
+{
+  "name": "express-hw-pug-ejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.mjs"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "pug": "^3.0.3"
+  }
+}
