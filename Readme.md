@@ -3,6 +3,7 @@
 - Express
 - Node.js
 - Pug
+- Ejs
 - Nodemon
 - Postman
 
