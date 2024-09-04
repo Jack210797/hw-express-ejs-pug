@@ -1,9 +1,16 @@
 import express from 'express'
+import { fileURLToPath } from 'url'
+import path from 'path'
+import { users } from './data/users.js'
+import { articles } from './data/articles.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const app = express()
 
 app.set('view engine', 'pug')
-app.set('views', './views')
+app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
   const home = 'home'
@@ -15,68 +22,25 @@ app.get('/', (req, res) => {
 })
 
 app.get('/users', (req, res) => {
-  const users = [
-    { phone: '+132423432', name: 'John', email: 'example.com' },
-    { phone: '+123122', name: 'Jane', email: 'example.com' },
-    { phone: '+5345343', name: 'Jack', email: 'example.com' },
-    { phone: '+4787', name: 'Jill', email: 'example.com' },
-    { phone: '+55443453', name: 'Joe', email: 'example.com' },
-    { phone: '+4345346', name: 'Janny', email: 'example.com' },
-    { phone: '+344536547', name: 'Senny', email: 'example.com' },
-    { phone: '+875678', name: 'Lenny', email: 'example.com' },
-    { phone: '+98679789', name: 'Kenny', email: 'example.com' }
-  ]
-
   const title = 'Users'
-
   res.render('users', {
     title,
     users
   })
 })
-app.get('/users/:Id', (req, res) => {
-  const { userId } = req.params
-  const user = {
-    phone: '+132423432',
-    name: 'John',
-    email: 'example.com'
-  }
 
-  const title = 'User'
-  res.render('userId', {
-    title,
-    user,
-    userId
-  })
+app.get('/users/:userId', (req, res) => {
+  const id = parseInt(req.params.userId)
+  const user = users[id - 1]
+
+  if (user) {
+    res.render('userId', { user })
+  } else {
+    res.status(404).send('User not found')
+  }
 })
 
 app.get('/articles', (req, res) => {
-  const articles = [
-    {
-      title: 'Article 1',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultric.'
-    },
-    {
-      title: 'Article 2',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultric.'
-    },
-    {
-      title: 'Article 3',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultric.'
-    },
-    {
-      title: 'Article 4',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultric.'
-    },
-    {
-      title: 'Article 5',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euis'
-    }
-  ]
   const title = 'Articles'
   res.render('articles.ejs', {
     title,
@@ -84,17 +48,18 @@ app.get('/articles', (req, res) => {
   })
 })
 
-app.get('/articles/:Id', (req, res) => {
-  const article = {
-    name: 'Article 1',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc. Sed euismod, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultric.'
-  }
+app.get('/articles/:articleId', (req, res) => {
+  const id = parseInt(req.params.articleId)
+  const article = articles[id - 1]
 
-  const title = 'Article'
-  res.render('articleId.ejs', {
-    article,
-    title
-  })
+  if (article) {
+    res.render('articleId.ejs', {
+      title: article.title,
+      article
+    })
+  } else {
+    res.status(404).send('Статтю не знайдено')
+  }
 })
 
 app.listen(3000, () => {

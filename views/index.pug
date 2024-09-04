@@ -1,12 +1,23 @@
 doctype html
-html(lang="en")
+html(lang="uk")
   head
     title= title
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
-  body
-    .container
-      h1.d-flex.justify-content-center.p-5 Welcome to Express and Pug
+  body.bg-light
+    .container.mt-5
+      .card.shadow
+        .card-header.bg-primary.text-white
+          h1.text-center Ласкаво просимо до Express та Pug
+        .card-body
+          p.lead.text-center Головна сторінка нашого додатку
+          .row.mt-4
+            .col-md-6
+              a.btn.btn-info.btn-block(href="/users") Перейти до списку користувачів
+            .col-md-6
+              a.btn.btn-success.btn-block(href="/articles") Перейти до списку статей
 
-  
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
 

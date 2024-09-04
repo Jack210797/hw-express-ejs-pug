@@ -3,7 +3,27 @@ html(lang="en")
     title= title
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
-  body
-    .container
-      h1.d-flex.justify-content-center.p-5 User Details
-      div.fs-3.p-2  #{ user.name } - #{ user.phone } - #{ user.email }
+  body.bg-light
+    .container.mt-5
+      .card.shadow
+        .card-header.bg-primary.text-white
+          h1.text-center User Details
+        .card-body
+          if user
+            .row
+              .col-md-4.font-weight-bold Name:
+              .col-md-8 #{user.name}
+            .row.mt-3
+              .col-md-4.font-weight-bold Email:
+              .col-md-8 #{user.email}
+            .row.mt-3
+              .col-md-4.font-weight-bold Phone:
+              .col-md-8 #{user.phone}
+          else
+            .alert.alert-danger 404 Користувач не знайдено
+        .card-footer
+          a.btn.btn-primary(href="/users") Повернутися до списку користувачів
+
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
