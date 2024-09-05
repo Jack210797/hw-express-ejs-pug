@@ -3,6 +3,7 @@ html(lang="uk")
   head
     title= title
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    link(href="/favicon.png", rel="icon", type="image/png")
 
   body.bg-light
     .container.mt-5
@@ -16,6 +17,11 @@ html(lang="uk")
               a.btn.btn-info.btn-block(href="/users") Перейти до списку користувачів
             .col-md-6
               a.btn.btn-success.btn-block(href="/articles") Перейти до списку статей
+          .row.mt-4
+            .col-md-6
+              a.btn.btn-success.btn-block(href="/settings") Перейти до перегляду Cookies 
+            .col-md-6
+              a.btn.btn-info.btn-block(href="/login") Перейти до cторінки авторизації
 
     script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
