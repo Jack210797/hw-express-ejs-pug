@@ -13,6 +13,9 @@
 - Bootstrap
 - JWT
 - bcrypt
+- Passsport
+- express-session
+- Cookie
 
 ## Встановлення
 
@@ -82,6 +85,11 @@
 
 Цей процес забезпечує безпечну реєстрацію та вхід користувачів.
 
+## Авторизація з Passport
+
+У цьому проекті використовується Passport для реалізації авторизації користувачів. Passport - це middleware для Node.js, який спрощує процес автентифікації в Express-додатках.
+Використовується Local Strategy: для авторизації за допомогою email та пароля.
+
 ## Маршрути
 
 - http://localhost:3000/ - Головна сторінка "Home"
@@ -92,6 +100,8 @@
 - http://localhost:3000/settings - Сторінка "Cookies Page"
 - http://localhost:3000/login - Сторінка "Login"
 - http://localhost:3000/registration - Сторінка "Registration"
+- http://localhost:3000/protected - Захищений маршрут! Доступний тільки для авторизованих користувачів
+- http://localhost:3000/logout - Вихід з облікового запису
 
 ## Тестування маршрутів
 

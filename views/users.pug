@@ -18,6 +18,7 @@ html(lang="en")
                   th Name
                   th Phone
                   th Email
+                  th Password 
               tbody
                 each user, index in users
                   tr
@@ -25,6 +26,7 @@ html(lang="en")
                       a(href=`/users/${index+1}`)= user.name
                     td= user.phone
                     td= user.email
+                    td= user.password
         .card-footer
           a.btn.btn-primary(href="/") Повернутися на головну
 
