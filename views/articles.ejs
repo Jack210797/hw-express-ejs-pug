@@ -23,7 +23,7 @@
         <ul class="list-group">
           <% articles.forEach(function(article, index) { %>
             <li class="list-group-item">
-              <a href="/articles/<%= index + 1 %>" class="text-decoration-none text-dark">
+              <a href="/articles/<%= article._id %>" class="text-decoration-none text-dark">
                 <h3 class="mb-2">
                   <%= article.title %>
                 </h3>

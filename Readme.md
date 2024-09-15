@@ -16,6 +16,7 @@
 - Passsport
 - express-session
 - Cookie
+- MongoDB
 
 ## Встановлення
 
@@ -88,15 +89,30 @@
 ## Авторизація з Passport
 
 У цьому проекті використовується Passport для реалізації авторизації користувачів. Passport - це middleware для Node.js, який спрощує процес автентифікації в Express-додатках.
-Використовується Local Strategy: для авторизації за допомогою email та пароля.
+
+## Робота з MongoDB
+
+У цьому застосунку MongoDB використовується для зберігання та управління даними користувачів. Ось ключові моменти використання MongoDB:
+
+Підключення до бази даних здійснюється через функцію connectDB, яка імпортується з файлу db.mjs.
+
+У функції passport.deserializeUser використовується MongoDB для пошуку користувача за його ідентифікатором (\_id).
+
+Колекція 'users' використовується для зберігання інформації про користувачів.
+
+Колекція 'articles' використовується для зберігання інформації про статті.
+
+ObjectId з MongoDB використовується для коректної роботи з ідентифікаторами користувачів.
+
+У різних контролерах (наприклад, для реєстрації та входу) використовуються операції з MongoDB для створення, пошуку та оновлення користувачів.
 
 ## Маршрути
 
 - http://localhost:3000/ - Головна сторінка "Home"
 - http://localhost:3000/users - Сторінка "Users"
-- http://localhost:3000/users/:usersId - Сторінка "User"
+- http://localhost:3000/users/:Id - Сторінка "User"
 - http://localhost:3000/articles - Cторінка "Articles"
-- http://localhost:3000/articles/:articlesId - Cторінка "Article"
+- http://localhost:3000/articles/:Id - Cторінка "Article"
 - http://localhost:3000/settings - Сторінка "Cookies Page"
 - http://localhost:3000/login - Сторінка "Login"
 - http://localhost:3000/registration - Сторінка "Registration"
@@ -108,3 +124,9 @@
 Для тестування маршрутів використовується застосунок Postman.
 
 link: https://www.postman.com/downloads/
+
+## Тестування MongoDB
+
+Для тестування MongoDB використовується застосунок MongoDB Compass.
+
+link: https://www.mongodb.com/try/download/shell
