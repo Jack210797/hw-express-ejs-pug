@@ -12,31 +12,49 @@ export const createUser = async (req, res, next) => {
   }
 }
 
-export const getUser = async (req, res, next) => {
+export const createManyUsers = async (req, res, next) => {
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+    const result = await users.insertMany(req.body)
+    res.status(201).send(`Сreated ${result.insertedCount} users`)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getUsers = async (req, res, next) => {
   try {
     const db = await connectDB()
     const users = db.collection('users')
 
-    if (req.params.id) {
-      if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).send('Недійсний ID користувача')
-      }
+    const projection = { name: 1, email: 1, phone: 1, _id: 0 }
 
-      const id = new ObjectId(req.params.id)
-      const user = await users.findOne({ _id: id })
+    const usersList = await users.find({}, { projection }).toArray()
 
-      if (user) {
-        res.render('userId', { title: user.name, user })
-      } else {
-        res.status(404).send('User not found')
-      }
+    if (usersList.length > 0) {
+      res.render('users', { title: 'Users List', users: usersList })
     } else {
-      const usersList = await users.find({}).toArray()
-      const title = 'Users'
-      res.render('users', { title, users: usersList })
+      res.status(404).send('Список користувачів порожній')
     }
   } catch (error) {
     next(error)
+  }
+}
+
+export const getUserByID = async (req, res, next) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).send('Недійсний ID користувача')
+  }
+
+  const db = await connectDB()
+  const users = db.collection('users')
+  const user = await users.findOne({ _id: new ObjectId(req.params.id) })
+
+  if (user) {
+    res.render('userId', { title: user.name, user })
+  } else {
+    res.status(404).send('User not found')
   }
 }
 
@@ -54,6 +72,18 @@ export const deleteUser = async (req, res, next) => {
   }
 }
 
+export const deleteManyUsers = async (req, res, next) => {
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+
+    const result = await users.deleteMany(req.body.filter || {})
+    res.status(200).send(`Видалено ${result.deletedCount} користувачів`)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const updateUser = async (req, res, next) => {
   try {
     const db = await connectDB()
@@ -63,6 +93,33 @@ export const updateUser = async (req, res, next) => {
       return res.status(404).send('User not found')
     }
     res.status(200).send(`User with id ${req.params.id} updated`)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateManyUsers = async (req, res, next) => {
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+    const filter = req.body.filter || {}
+    const update = { $set: req.body.update || {} }
+    const result = await users.updateMany(filter, update)
+    res.status(200).send(`Оновлено ${result.modifiedCount} користувачів`)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const replaceUser = async (req, res, next) => {
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+    const result = await users.replaceOne({ _id: new ObjectId(req.params.id) }, req.body)
+    if (result.matchedCount === 0) {
+      return res.status(404).send('Користувача не знайдено')
+    }
+    res.status(200).send(`Користувача з id ${req.params.id} замінено`)
   } catch (error) {
     next(error)
   }
