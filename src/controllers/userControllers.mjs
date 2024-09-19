@@ -28,7 +28,7 @@ export const getUsers = async (req, res, next) => {
     const db = await connectDB()
     const users = db.collection('users')
 
-    const projection = { name: 1, email: 1, phone: 1, _id: 0 }
+    const projection = { name: 1, email: 1, phone: 1, _id: 1 }
 
     const usersList = await users.find({}, { projection }).toArray()
 
@@ -43,18 +43,18 @@ export const getUsers = async (req, res, next) => {
 }
 
 export const getUserByID = async (req, res, next) => {
-  if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).send('Недійсний ID користувача')
-  }
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+    const user = await users.findOne({ _id: new ObjectId(req.params.id) })
 
-  const db = await connectDB()
-  const users = db.collection('users')
-  const user = await users.findOne({ _id: new ObjectId(req.params.id) })
-
-  if (user) {
-    res.render('userId', { title: user.name, user })
-  } else {
-    res.status(404).send('User not found')
+    if (user) {
+      res.render('userId', { title: user.name, user })
+    } else {
+      res.status(404).json({ error: 'User not found' })
+    }
+  } catch (error) {
+    next(error)
   }
 }
 
