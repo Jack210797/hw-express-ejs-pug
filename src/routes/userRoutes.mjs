@@ -1,7 +1,6 @@
 import express from 'express'
 import {
-  createUser,
-  createManyUsers,
+  createUsers,
   getUsers,
   getUserByID,
   deleteUser,
@@ -24,8 +23,7 @@ const validateObjectId = (req, res, next) => {
 router.get('/users', getUsers)
 router.get('/users/:id', validateObjectId, getUserByID)
 
-router.post('/user', createUser)
-router.post('/users', createManyUsers)
+router.post('/users', createUsers)
 
 router.put('/users/:id', updateUser)
 router.put('/users', updateManyUsers)

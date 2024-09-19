@@ -1,23 +1,18 @@
 import { ObjectId } from 'mongodb'
 import { connectDB } from '../../db.mjs'
 
-export const createUser = async (req, res, next) => {
+export const createUsers = async (req, res, next) => {
   try {
     const db = await connectDB()
     const users = db.collection('users')
-    const result = await users.insertOne(req.body)
-    res.status(201).send(`User created with id ${result.insertedId}`)
-  } catch (error) {
-    next(error)
-  }
-}
 
-export const createManyUsers = async (req, res, next) => {
-  try {
-    const db = await connectDB()
-    const users = db.collection('users')
-    const result = await users.insertMany(req.body)
-    res.status(201).send(`Сreated ${result.insertedCount} users`)
+    if (Array.isArray(req.body)) {
+      const result = await users.insertMany(req.body)
+      res.status(201).send(`Created ${result.insertedCount} users`)
+    } else {
+      const result = await users.insertOne(req.body)
+      res.status(201).send(`User created with id ${result.insertedId}`)
+    }
   } catch (error) {
     next(error)
   }
@@ -89,6 +84,7 @@ export const updateUser = async (req, res, next) => {
     const db = await connectDB()
     const users = db.collection('users')
     const result = await users.updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body })
+
     if (result.matchedCount === 0) {
       return res.status(404).send('User not found')
     }
