@@ -29,7 +29,7 @@ router.post('/users', createManyUsers)
 
 router.put('/users/:id', updateUser)
 router.put('/users', updateManyUsers)
-router.put('/user/:id/replace', replaceUser)
+router.put('/users/:id/replace', replaceUser)
 
 router.delete('/users/:id', deleteUser)
 router.delete('/users', deleteManyUsers)
