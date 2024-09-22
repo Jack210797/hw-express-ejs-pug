@@ -23,14 +23,52 @@ export const getUsers = async (req, res, next) => {
     const db = await connectDB()
     const users = db.collection('users')
 
-    const projection = { name: 1, email: 1, phone: 1, _id: 1 }
+    const projection = { name: 1, age: 1, city: 1, email: 1, phone: 1, _id: 1 }
+    const cursor = users.find({}, { projection })
 
-    const usersList = await users.find({}, { projection }).toArray()
+    const usersList = await cursor.toArray()
 
     if (usersList.length > 0) {
       res.render('users', { title: 'Users List', users: usersList })
     } else {
       res.status(404).send('Список користувачів порожній')
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getUserStats = async (req, res, next) => {
+  try {
+    const db = await connectDB()
+    const users = db.collection('users')
+
+    const stats = await users
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            totalUsers: { $sum: 1 },
+            averageAge: { $avg: '$age' },
+            uniqueEmails: { $addToSet: '$email' },
+            cities: { $addToSet: '$city' }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            totalUsers: 1,
+            averageAge: { $round: ['$averageAge', 2] },
+            uniqueEmailCount: { $size: '$uniqueEmails' },
+            uniqueCityCount: { $size: '$cities' }
+          }
+        }
+      ])
+      .toArray()
+    if (stats.length > 0) {
+      res.json(stats[0])
+    } else {
+      res.status(404).send('Статистика користувачів недоступна')
     }
   } catch (error) {
     next(error)

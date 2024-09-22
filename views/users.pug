@@ -16,6 +16,8 @@ html(lang="en")
               thead.thead-light
                 tr
                   th Name
+                  th Age
+                  th City
                   th Phone
                   th Email
                   th Password 
@@ -24,6 +26,8 @@ html(lang="en")
                   tr
                     td
                       a(href=`/users/${user._id}`)= user.name
+                    td= user.age
+                    td= user.city
                     td= user.phone
                     td= user.email
                     td= user.password

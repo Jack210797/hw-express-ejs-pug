@@ -24,8 +24,9 @@ export const getArticles = async (req, res, next) => {
     const articles = db.collection('articles')
 
     const projection = { title: 1, content: 1, _id: 1 }
+    const cursor = articles.find({}, { projection })
 
-    const articlesList = (await articles.find({}, { projection }).toArray()) || []
+    const articlesList = await cursor.toArray()
 
     if (articlesList.length > 0) {
       res.render('articles.ejs', { title: 'Articles', articles: articlesList })

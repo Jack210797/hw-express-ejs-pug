@@ -7,7 +7,8 @@ import {
   updateUser,
   updateManyUsers,
   replaceUser,
-  deleteManyUsers
+  deleteManyUsers,
+  getUserStats
 } from '../controllers/userControllers.mjs'
 import { ObjectId } from 'mongodb'
 
@@ -21,6 +22,7 @@ const validateObjectId = (req, res, next) => {
 }
 
 router.get('/users', getUsers)
+router.get('/users/stats', getUserStats)
 router.get('/users/:id', validateObjectId, getUserByID)
 
 router.post('/users', createUsers)
